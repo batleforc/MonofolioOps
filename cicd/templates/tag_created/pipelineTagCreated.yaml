@@ -228,7 +228,8 @@ spec:
           value: "monofolio-ci"
         - name: GIT_USER_EMAIL
           value: "monfolio-ci@weebo.fr"
-        - GIT_SCRIPT: |
+        - name: GIT_SCRIPT
+          value: |
             git add .
             git commit -m "Update monofolio version to $(params.repo-revision)"
             git push --set-upstream origin main
