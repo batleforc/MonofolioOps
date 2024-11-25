@@ -39,6 +39,10 @@ spec:
       description: |
         This workspace contains the cloned repo files, so they can be read by the
         next task.
+    - name: shared-data-ops
+      description: |
+        This workspace contains the cloned repo files, so they can be read by the
+        next task.
     - name: dockerAuthConfig
       description: |
         This workspace contains the docker config.json file, so it can be used by
@@ -52,6 +56,12 @@ spec:
     - name: discordWebhook
       description: |
         This workspace contains the discord webhook to send messages.
+    - name: githubMonofolioSSH
+      description: |
+        This workspace contains the github ssh key to clone the repo.
+    - name: githubMonofolioOpsSSH
+      description: |
+        This workspace contains the github ssh key to clone the repo.
   tasks:
     - name: fetch-source-front
       taskRef:
@@ -59,6 +69,8 @@ spec:
       workspaces:
         - name: output
           workspace: shared-data-front
+        - name: ssh-directory
+          workspace: githubMonofolioSSH
       params:
         - name: url
           value: $(params.repo-url)
@@ -91,11 +103,24 @@ spec:
       workspaces:
         - name: output
           workspace: shared-data-back
+        - name: ssh-directory
+          workspace: githubMonofolioSSH
       params:
         - name: url
           value: $(params.repo-url)
         - name: revision
           value: $(params.repo-revision)
+    - name: fetch-source-ops
+      taskRef:
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: shared-data-ops
+        - name: ssh-directory
+          workspace: githubMonofolioOpsSSH
+      params:
+        - name: url
+          value: "{{.Values.config.opsRepo}}"
     - name: build-docker-front
       runAfter: ["fetch-source-front"]
       taskRef:
@@ -168,6 +193,45 @@ spec:
           value: $(params.repo-revision)
         - name: harbor_endpoint
           value: {{.Values.image.harbor.endpoint}}
+    - name: change-version
+      runAfter:
+        - build-docker-front
+        - build-docker-back
+        - fetch-source-ops
+      taskRef:
+        name: yq
+      workspaces:
+        - name: source
+          workspace: shared-data-ops
+      params:
+        - name: SCRIPT
+          value: |
+            for var in "./deploy/back/values.yaml" "./deploy/front/values.yaml"
+              do
+                  /usr/bin/yq eval -i '.image.tag="$(params.repo-revision)"' "$var"
+              done
+    - name: git-commit
+      runAfter: ["change-version"]
+      taskRef:
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: shared-data-ops
+        - name: ssh-directory
+          workspace: githubMonofolioOpsSSH
+      params:
+        - name: url
+          value: "{{.Values.config.opsRepo}}"
+        - name: revision
+          value: $(params.repo-revision)
+        - name: GIT_USER_NAME
+          value: "monofolio-ci"
+        - name: GIT_USER_EMAIL
+          value: "monfolio-ci@weebo.fr"
+        - GIT_SCRIPT: |
+            git add .
+            git commit -m "Update monofolio version to $(params.repo-revision)"
+            git push --set-upstream origin main
   results:
     - name: HARBOR_FRONT_VULN_SCAN_OUTPUT
       description: The output of the vulnerability scan

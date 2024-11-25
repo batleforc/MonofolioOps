@@ -12,7 +12,8 @@ secrets:
   githubTokenApi: "github-token"
   discordWebhook: "discord-webhook"
   githubTokenWebhook: "github"
-
+  githubMonofolioSSH: "monofolio-deploy-key"
+  githubMonofolioOpsSSH: "monofolioops-deploy-key"
 secretVault:
   github_key: ""
 
@@ -58,3 +59,4 @@ config:
   listenerDomain: "el-{{.Values.config.prefix}}-event-listener.dev.mono-folio.com"
   name: "batleforc"
   baseUrl: "https://{{.Values.config.domain}}/"
+  opsRepo: "https://github.com/batleforc/monofolioops"

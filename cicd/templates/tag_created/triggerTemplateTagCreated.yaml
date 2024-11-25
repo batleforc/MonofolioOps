@@ -74,6 +74,15 @@ spec:
                   requests:
                     storage: 5Gi
                 storageClassName: local-path
+          - name: shared-data-ops
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 5Gi
+                storageClassName: local-path
           {{- range $key, $value := $.Values.secrets }}
           {{- if ne $key "githubTokenWebhook" }}
           - name: {{ $key }}
