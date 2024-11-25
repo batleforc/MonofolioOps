@@ -213,7 +213,7 @@ spec:
     - name: git-commit
       runAfter: ["change-version"]
       taskRef:
-        name: git-clone
+        name: git-cli
       workspaces:
         - name: output
           workspace: shared-data-ops
