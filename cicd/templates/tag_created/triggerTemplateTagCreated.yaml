@@ -54,6 +54,18 @@ spec:
               {{- with $.Values.annotations.common }}
                 {{- toYaml . | nindent 16 }}
               {{- end }}
+          - pipelineTaskName: fetch-source-ops
+            taskPodTemplate:
+              securityContext:
+                runAsUser: 601234
+          - pipelineTaskName: change-version
+            taskPodTemplate:
+              securityContext:
+                runAsUser: 601234
+          - pipelineTaskName: git-commit
+            taskPodTemplate:
+              securityContext:
+                runAsUser: 601234
 
         workspaces:
           - name: shared-data-front
