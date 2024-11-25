@@ -1,0 +1,16 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: {{.Values.prefix}}-trigger-binding-push
+  labels:
+    app.kubernetes.io/name: '{{.Values.prefix}}-webhook'
+    app.kubernetes.io/component: webhook
+    backstage.io/kubernetes-id: '{{.Values.prefix}}'
+spec:
+  params:
+    - name: gitrepositoryurl
+      value: $(body.repository.clone_url)
+    - name: gitrevision
+      value: $(body.head_commit.id)
+    - name: gitbranch
+      value: $(extensions.branch_name)
