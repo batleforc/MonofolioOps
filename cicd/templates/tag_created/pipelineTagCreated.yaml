@@ -207,6 +207,8 @@ spec:
         - name: SCRIPT
           value: |
             ls -lah
+            ls -lah "$(workspaces.source.path)/deploy/front/values.yaml"
+            ls -lah "$(workspaces.source.path)/deploy/back/values.yaml"
             pwd
             for var in "$(workspaces.source.path)/deploy/back/values.yaml" "$(workspaces.source.path)/deploy/front/values.yaml"
               do
