@@ -62,10 +62,6 @@ spec:
             taskPodTemplate:
               securityContext:
                 runAsUser: 1000
-          - pipelineTaskName: git-commit
-            taskPodTemplate:
-              securityContext:
-                runAsUser: 1000
 
         workspaces:
           - name: shared-data-front

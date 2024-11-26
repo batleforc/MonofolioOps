@@ -235,8 +235,6 @@ spec:
           value: "monofolio-ci"
         - name: GIT_USER_EMAIL
           value: "monfolio-ci@weebo.fr"
-        - name: USER_HOME
-          value: "/home/monofolio-ci"
         - name: GIT_SCRIPT
           value: |
             git add .
