@@ -199,7 +199,7 @@ spec:
         - build-docker-back
         - fetch-source-ops
       taskRef:
-        name: yq
+        name: run-yq
       workspaces:
         - name: source
           workspace: shared-data-ops
