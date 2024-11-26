@@ -215,7 +215,7 @@ spec:
             pwd
             for var in "$(workspaces.source.path)/deploy/back/values.yaml" "$(workspaces.source.path)/deploy/front/values.yaml"
               do
-                  /usr/bin/yq eval -i '.image.tag="$(params.repo-revision)"' "$var"
+                  $(workspaces.source.path)/yq eval -i '.image.tag="$(params.repo-revision)"' "$var"
               done
     - name: git-commit
       runAfter: ["change-version"]

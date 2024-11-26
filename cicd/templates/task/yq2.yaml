@@ -25,8 +25,9 @@ spec:
         - |
           set -ex
           echo "--- Download yq & add to path"
-          wget https://github.com/mikefarah/yq/releases/download/$(params.YQ_VERSION)/yq_linux_amd64 -O /usr/bin/yq &&\
-              chmod +x /usr/bin/yq
+          wget https://github.com/mikefarah/yq/releases/download/$(params.YQ_VERSION)/yq_linux_amd64 -O $(workspaces.source.path)/yq &&\
+              chmod +x $(workspaces.source.path)/yq
           echo "--- Run yq expression"
           $(params.SCRIPT)
+          rm $(workspaces.source.path)/yq
       resources: {}
