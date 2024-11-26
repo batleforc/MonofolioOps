@@ -222,7 +222,7 @@ spec:
       taskRef:
         name: git-cli
       workspaces:
-        - name: output
+        - name: source
           workspace: shared-data-ops
         - name: ssh-directory
           workspace: githubMonofolioOpsSSH
