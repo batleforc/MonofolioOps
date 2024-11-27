@@ -6,7 +6,7 @@ metadata:
 spec:
   params:
     - name: gitrepositoryurl
-      value: $(body.repository.clone_url)
+      value: $(body.repository.ssh_url)
     - name: gitrevision
       value: $(extensions.tag_name)
     - name: gittag
