@@ -239,6 +239,7 @@ spec:
           value: |
             git config --global --add safe.directory /workspace/source
             git add .
+            git pull origin main
             git checkout main
             git commit -m "Update monofolio version to $(params.repo-revision)"
             git push --set-upstream origin main
