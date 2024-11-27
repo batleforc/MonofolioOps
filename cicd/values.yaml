@@ -59,4 +59,4 @@ config:
   listenerDomain: "el-{{.Values.config.prefix}}-event-listener.dev.mono-folio.com"
   name: "batleforc"
   baseUrl: "https://{{.Values.config.domain}}/"
-  opsRepo: "https://github.com/batleforc/monofolioops"
+  opsRepo: "git@github.com:batleforc/MonofolioOps.git"

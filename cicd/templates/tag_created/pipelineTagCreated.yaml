@@ -265,6 +265,7 @@ spec:
             git config --global --add safe.directory /workspace/source
             git add .
             git commit -m "Update monofolio version to $(params.repo-revision)"
+            git origin set-url origin git@github.com:batleforc/MonofolioOps.git
             git push --set-upstream origin main
   results:
     - name: HARBOR_FRONT_VULN_SCAN_OUTPUT

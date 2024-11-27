@@ -58,8 +58,6 @@ spec:
             taskPodTemplate:
               securityContext:
                 runAsUser: 1000
-
-
         workspaces:
           - name: shared-data-front
             volumeClaimTemplate:
