@@ -193,11 +193,32 @@ spec:
           value: $(params.repo-revision)
         - name: harbor_endpoint
           value: {{.Values.image.harbor.endpoint}}
+    - name: git-prepare
+      runAfter: ["fetch-source-ops"]
+      taskRef:
+        name: git-cli
+      workspaces:
+        - name: source
+          workspace: shared-data-ops
+        - name: ssh-directory
+          workspace: githubMonofolioOpsSSH
+      params:
+        - name: url
+          value: "{{.Values.config.opsRepo}}"
+        - name: revision
+          value: $(params.repo-revision)
+        - name: GIT_USER_NAME
+          value: "monofolio-ci"
+        - name: GIT_USER_EMAIL
+          value: "monfolio-ci@weebo.fr"
+        - name: GIT_SCRIPT
+          value: |
+            git config --global --add safe.directory /workspace/source
+            git pull origin main
+            git checkout main
     - name: change-version
       runAfter:
-        - build-docker-front
-        - build-docker-back
-        - fetch-source-ops
+        - git-prepare
       taskRef:
         name: run-yq
       workspaces:
@@ -218,7 +239,10 @@ spec:
                   $(workspaces.source.path)/yq eval -i '.image.tag="$(params.repo-revision)"' "$var"
               done
     - name: git-commit
-      runAfter: ["change-version"]
+      runAfter:
+        - change-version
+        - build-docker-front
+        - build-docker-back
       taskRef:
         name: git-cli
       workspaces:
@@ -239,8 +263,6 @@ spec:
           value: |
             git config --global --add safe.directory /workspace/source
             git add .
-            git pull origin main
-            git checkout main
             git commit -m "Update monofolio version to $(params.repo-revision)"
             git push --set-upstream origin main
   results:
