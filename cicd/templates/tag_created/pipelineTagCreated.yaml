@@ -237,6 +237,7 @@ spec:
             for var in "$(workspaces.source.path)/deploy/back/values.yaml" "$(workspaces.source.path)/deploy/front/values.yaml"
               do
                   $(workspaces.source.path)/yq eval -i '.image.tag="$(params.repo-revision)"' "$var"
+                  cat $var
               done
     - name: git-commit
       runAfter:
