@@ -5,31 +5,25 @@ resources:
   requests:
     cpu: 20m
     memory: 64Mi
-
 image:
   repository: ""
   pullPolicy: Always
-  tag: "main"
+  tag: "v1.0.0"
   pullSecret: "harbor-pull"
-
 labels:
   app.kubernetes.io/name: "monofolio-backend"
   app.kubernetes.io/instance: "monofolio-backend-{{- template \"mychart.name\" . }}"
   app.kubernetes.io/component: backend
   app.kubernetes.io/part-of: "monofolio-{{- template \"mychart.name\" . }}"
   backstage.io/kubernetes-id: 'monofolio'
-
 annotations:
   deployment.kubernetes.io/revision: "{{ .Release.Revision }}"
   deployment.git-branch: "{{ .Values.image.tag }}"
-
 ingress:
   annotations:
     kubernetes.io/ingress.class: "traefik"
     cert-manager.io/cluster-issuer: "prod-letsencrypt-issuer"
   host: '{{- template "mychart.name" . }}.dev.mono-folio.com'
-
 env:
   OTEL_OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo.monitoring.svc.cluster.local:4317
-
 envSecrets: []
