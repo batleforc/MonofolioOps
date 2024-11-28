@@ -24,6 +24,7 @@ ingress:
     kubernetes.io/ingress.class: "traefik"
     cert-manager.io/cluster-issuer: "prod-letsencrypt-issuer"
   host: '{{- template "mychart.name" . }}.dev.mono-folio.com'
+  additonalHosts: []
 env:
   OTEL_OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo.monitoring.svc.cluster.local:4317
 envSecrets: []

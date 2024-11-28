@@ -24,5 +24,6 @@ ingress:
     kubernetes.io/ingress.class: "traefik"
     cert-manager.io/cluster-issuer: "prod-letsencrypt-issuer"
   host: '{{- template "mychart.name" . }}.dev.mono-folio.com'
+  additonalHosts: []
 env: []
 envSecrets: []

@@ -12,7 +12,13 @@
 {{- end }}
 {{- end }}
 
- {{/* Generate annotations */}}
+{{/* Generate DnsSecretName */}}
+{{- define "mychart.dnsSecretName" -}}
+{{/* Replace char and uppercase in dns */}}
+{{- regexReplaceAll "\\W+" . "_" | lower -}}
+{{- end }}
+
+{{/* Generate annotations */}}
 {{- define "mychart.annotations" -}}
 {{- with .Values.annotations}}
 {{- range $key, $value := . }}

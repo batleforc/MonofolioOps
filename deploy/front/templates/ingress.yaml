@@ -16,6 +16,13 @@ spec:
     - hosts:
         - {{ tpl .Values.ingress.host . | quote }}
       secretName: "{{- template "mychart.name" . -}}-monofolio-tls"
+    {{ with .Values.ingress.additonalHosts }}
+    {{- range . }}
+    - hosts:
+        - {{ . | quote }}
+      secretName: "{{- template "mychart.dnsSecretName" . -}}-monofolio-tls"
+    {{- end }}
+    {{- end }}
   rules:
     - host: {{ tpl .Values.ingress.host . | quote }}
       http:
@@ -27,3 +34,17 @@ spec:
                 name: "{{ .Chart.Name }}-{{- template "mychart.name" . -}}"
                 port:
                   number: 8080
+    {{ with .Values.ingress.additonalHosts }}
+    {{- range . }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: "{{ .Chart.Name }}-{{- template "mychart.name" $.Values -}}"
+                port:
+                  number: 5437
+    {{- end }}
+    {{- end }}
