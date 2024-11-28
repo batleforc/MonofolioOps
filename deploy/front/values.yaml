@@ -6,7 +6,7 @@ resources:
     cpu: 20m
     memory: 64Mi
 image:
-  repository: ""
+  repository: "front"
   pullPolicy: Always
   tag: "v1.0.0"
   pullSecret: "harbor-pull"
