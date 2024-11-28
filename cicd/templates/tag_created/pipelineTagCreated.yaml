@@ -227,13 +227,6 @@ spec:
       params:
         - name: SCRIPT
           value: |
-            ls -lah
-            ls -lah "$(workspaces.source.path)/deploy/"
-            ls -lah "$(workspaces.source.path)/deploy/front/"
-            ls -lah "$(workspaces.source.path)/deploy/back/"
-            ls -lah "$(workspaces.source.path)/deploy/front/values.yaml"
-            ls -lah "$(workspaces.source.path)/deploy/back/values.yaml"
-            pwd
             for var in "$(workspaces.source.path)/deploy/back/values.yaml" "$(workspaces.source.path)/deploy/front/values.yaml"
               do
                   $(workspaces.source.path)/yq eval -i '.image.tag="$(params.repo-revision)"' "$var"
@@ -265,7 +258,6 @@ spec:
             git config --global --add safe.directory /workspace/source
             git add .
             git commit -m "Update monofolio version to $(params.repo-revision)"
-            git origin set-url origin git@github.com:batleforc/MonofolioOps.git
             git push --set-upstream origin main
   results:
     - name: HARBOR_FRONT_VULN_SCAN_OUTPUT
