@@ -55,7 +55,7 @@ spec:
         The base image for the task.
       type: string
       # TODO: Deprecate use of root image.
-      default: cgr.dev/chainguard/git:root-2.47.1
+      default: cgr.dev/chainguard/git:latest-root
 
     - name: GIT_USER_NAME
       type: string
