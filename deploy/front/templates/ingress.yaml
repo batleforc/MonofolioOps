@@ -43,7 +43,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: "{{ .Chart.Name }}-{{- template "mychart.name" $.Values -}}"
+                name: "{{ $.Chart.Name }}-{{- template "mychart.name" $.Values -}}"
                 port:
                   number: 5437
     {{- end }}

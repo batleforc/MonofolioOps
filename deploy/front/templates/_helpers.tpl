@@ -12,7 +12,13 @@
 {{- end }}
 {{- end }}
 
- {{/* Generate annotations */}}
+{{/* Generate DnsSecretName */}}
+{{- define "mychart.dnsSecretName" -}}
+{{/* Replace char and uppercase in dns */}}
+{{- regexReplaceAll "\\W+" . "_" | lower -}}
+{{- end }}
+
+{{/* Generate annotations */}}
 {{- define "mychart.annotations" -}}
 {{- with .Values.annotations}}
 {{- range $key, $value := . }}
@@ -27,16 +33,16 @@
 {{- with .Values.env }}
 {{- range $key, $value := . }}
     - name: {{ $key }}
-        value: {{ tpl $value $ | quote }}
+      value: {{ tpl $value $ | quote }}
 {{- end }}
 {{- end }}
 {{- with .Values.envSecrets}}
 {{- range $key, $value := . }}
     - name: {{ $key }}
-        valueFrom:
-            secretKeyRef:
-                name: {{ tpl $value.secretName $ | quote }}
-                key: {{ tpl $value.secretKey $ | quote }}
+      valueFrom:
+        secretKeyRef:
+          name: {{ tpl $value.secretName $ | quote }}
+          key: {{ tpl $value.secretKey $ | quote }}
 {{- end }}
 {{- end }}
 {{- end }}
