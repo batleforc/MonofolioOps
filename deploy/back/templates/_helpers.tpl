@@ -15,7 +15,7 @@
 {{/* Generate DnsSecretName */}}
 {{- define "mychart.dnsSecretName" -}}
 {{/* Replace char and uppercase in dns */}}
-{{- regexReplaceAll "\\W+" . "_" | lower -}}
+{{- regexReplaceAll "\\W+" . "-" | lower -}}
 {{- end }}
 
 {{/* Generate annotations */}}
