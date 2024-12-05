@@ -45,6 +45,6 @@ spec:
               service:
                 name: "{{ $.Chart.Name }}-{{- template "mychart.name" $ -}}"
                 port:
-                  number: 5437
+                  number: 8080
     {{- end }}
     {{- end }}
