@@ -11,6 +11,9 @@ metadata:
     {{- if .Values.ingress.annotations }}
     {{- toYaml .Values.ingress.annotations | nindent 4 }}
     {{- end }}
+    {{- if .Values.ingress.addAnnotations }}
+    {{- toYaml .Values.ingress.addAnnotations | nindent 4 }}
+    {{- end }}
 spec:
   tls:
     - hosts:
