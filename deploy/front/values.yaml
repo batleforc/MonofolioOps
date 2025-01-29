@@ -8,7 +8,7 @@ resources:
 image:
   repository: "front"
   pullPolicy: Always
-  tag: "v1.0.3"
+  tag: "v1.1.0"
   pullSecret: "harbor-pull"
 labels:
   app.kubernetes.io/name: "monofolio-frontend"
